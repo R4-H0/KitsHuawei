@@ -1,10 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'com.android.application'
+apply plugin: 'com.huawei.agconnect'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
+    signingConfigs {
+        release {
+            storeFile file('HmsDemo.jks')
+            keyAlias 'hmsdemo'
+            keyPassword '123456'
+            storePassword '123456'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
 
     defaultConfig {
         applicationId "com.example.kitshuawei"
@@ -18,8 +29,13 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+            debuggable true
         }
     }
 }
@@ -33,5 +49,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    implementation 'com.huawei.hms:push:5.0.0.300'
 }
